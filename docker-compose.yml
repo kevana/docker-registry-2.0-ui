@@ -1,0 +1,22 @@
+registry:
+  restart: always
+  image: registry:2.1.1
+  ports:
+    - 443:5000
+  environment:
+    REGISTRY_HTTP_TLS_CERTIFICATE: /certs/star.example.com.crt
+    REGISTRY_HTTP_TLS_KEY: /certs/star.example.com.key
+    REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /var/lib/registry
+#    REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+#    REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+  volumes:
+    - /var/lib/registry:/var/lib/registry
+    - ./certs:/certs
+#    - /path/auth:/auth
+
+corspassthru:
+  build: cors-passthru
+  ports:
+    - 80:80
+  links:
+    - registry

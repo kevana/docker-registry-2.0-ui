@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Docker Registry</title>
+</head>
+<body>
+	<h1>Docker Registry</h1>
+	<ul id="repoList">
+	</ul>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script>
+		(function() {
+			"use strict";
+			let repoList = document.getElementById('repoList');
+
+			$.get('/v2/_catalog').done(function(data) {
+				console.log(data);
+				let reposArr = data.repositories;
+				for (let repo of reposArr) {
+					let repoNode = document.createElement("li");
+					let tagsList = document.createElement("ul");
+					repoNode.appendChild(document.createTextNode(repo));
+					repoNode.appendChild(tagsList);
+					repoList.appendChild(repoNode);
+
+					$.get('/v2/' + repo + '/tags/list').done((data) => {
+						data.tags.forEach((tag) => {
+							let tagNode = document.createElement("li");
+							tagNode.appendChild(document.createTextNode(tag));
+							tagsList.appendChild(tagNode);
+						})
+					});
+				}
+			});
+		})();
+	</script>
+</body>
+</html>

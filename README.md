@@ -1,4 +1,8 @@
-# Docker Registry
+# Docker Registry v2 with a UI
+
+## What is it?
+
+This is a docker-compose setup that runs a v2 registry on port 443 and nginx on port 80 serving a very minimal UI that lists repositories and their tags. You can start it with `docker-compose up -d`, use it like a normal registry, and access the UI at port 80 with your browser (e.g. http://localhost/).
 
 This folder contains the configuration information for our Docker Registry server, running on registry.example.com.
 
